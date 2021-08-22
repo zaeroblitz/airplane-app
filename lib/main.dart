@@ -1,3 +1,5 @@
+import 'package:airplane/routes/app_page.dart';
+
 import 'views/pages/pages.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: GetStartedPage(),
+      home: SplashPage(),
+      routes: AppPage().pages,
     );
   }
 }

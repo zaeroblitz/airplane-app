@@ -54,3 +54,6 @@ TextStyle greenTextStyle = GoogleFonts.poppins(
 TextStyle pinkTextStyle = GoogleFonts.poppins(
   color: kPinkColor,
 );
+
+double defaultMargin = 24;
+double defaultRadius = 18;

@@ -1,7 +1,20 @@
 part of 'pages.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
+
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushNamed(context, AppRoutes.getStartedPage);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

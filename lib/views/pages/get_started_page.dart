@@ -35,27 +35,12 @@ class GetStartedPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  width: 220,
-                  height: 55,
                   margin: EdgeInsets.only(
                     top: 50,
                     bottom: 80,
                   ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                        backgroundColor: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )),
-                    child: Text(
-                      'Get Started',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: medium,
-                      ),
-                    ),
-                  ),
+                  child:
+                      PrimaryButton(225, 'Get Started', AppRoutes.signUpPage),
                 ),
               ],
             ),
