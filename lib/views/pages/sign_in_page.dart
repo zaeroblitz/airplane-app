@@ -1,6 +1,6 @@
 part of 'pages.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _title() {
@@ -27,11 +27,7 @@ class SignUpPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BasicTextField(
-              label: 'Full Name',
-              hintText: 'Your Full Name',
-            ),
-            BasicTextField(
-              label: 'Email Adress',
+              label: 'Email Address',
               hintText: 'Your Email Address',
             ),
             BasicTextField(
@@ -39,22 +35,17 @@ class SignUpPage extends StatelessWidget {
               hintText: 'Your Password',
               isPassword: true,
             ),
-            BasicTextField(
-              label: 'Hobby',
-              hintText: 'Your Hobby',
+            SizedBox(
+              height: 10,
             ),
-            Center(
-                child: Container(
-              margin: EdgeInsets.only(top: 10),
-              child: PrimaryButton(MediaQuery.of(context).size.width - 88,
-                  'Get Started', AppRoutes.getStartedPage),
-            )),
+            PrimaryButton(MediaQuery.of(context).size.width - 88, 'Sign In',
+                AppRoutes.getStartedPage),
           ],
         ),
       );
     }
 
-    Widget _signIn() {
+    Widget _signUp() {
       return Container(
         margin: EdgeInsets.only(
           top: 30,
@@ -64,18 +55,14 @@ class SignUpPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Already have an accounnt? ',
+              "Don't have an account? ",
               textAlign: TextAlign.center,
               style: regularSubtitleTextStyle,
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.signInPage,
-                (route) => false,
-              ),
+              onTap: () => Navigator.pushNamed(context, AppRoutes.signUpPage),
               child: Text(
-                'Sign In',
+                'Sign Up Now',
                 textAlign: TextAlign.center,
                 style: purpleTextStyle.copyWith(
                   fontSize: 14,
@@ -99,7 +86,7 @@ class SignUpPage extends StatelessWidget {
           children: [
             _title(),
             _inputSection(),
-            _signIn(),
+            _signUp(),
           ],
         ),
       ),

@@ -1,5 +1,4 @@
-import 'package:airplane/routes/app_page.dart';
-
+import '/routes/app_pages.dart';
 import 'views/pages/pages.dart';
 import 'package:flutter/material.dart';
 

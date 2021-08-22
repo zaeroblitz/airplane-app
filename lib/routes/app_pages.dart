@@ -7,5 +7,6 @@ class AppPage {
     AppRoutes.splashPage: (context) => SplashPage(),
     AppRoutes.getStartedPage: (context) => GetStartedPage(),
     AppRoutes.signUpPage: (context) => SignUpPage(),
+    AppRoutes.signInPage: (context) => SignInPage(),
   };
 }

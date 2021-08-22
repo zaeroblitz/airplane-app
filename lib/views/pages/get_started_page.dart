@@ -40,7 +40,7 @@ class GetStartedPage extends StatelessWidget {
                     bottom: 80,
                   ),
                   child:
-                      PrimaryButton(225, 'Get Started', AppRoutes.signUpPage),
+                      PrimaryButton(225, 'Get Started', AppRoutes.signInPage),
                 ),
               ],
             ),
