@@ -7,6 +7,7 @@ class AppPage {
     AppRoutes.mainPage: (context) => MainPage(),
     AppRoutes.homePage: (context) => HomePage(),
     AppRoutes.bonusPage: (context) => BonusPage(),
+    AppRoutes.detailPage: (context) => DetailPage(),
     AppRoutes.splashPage: (context) => SplashPage(),
     AppRoutes.signInPage: (context) => SignInPage(),
     AppRoutes.signUpPage: (context) => SignUpPage(),
