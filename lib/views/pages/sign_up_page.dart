@@ -14,6 +14,153 @@ class SignUpPage extends StatelessWidget {
     }
 
     Widget _inputSection() {
+      Widget _fullNameInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Full Name',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Full Name',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _emailInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Email Address',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Email Address',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _passwordInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Password',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                obscureText: true,
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Password',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _hobbyInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hobby',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Hobby',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _getStartedButton() {
+        return Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 10),
+            child: PrimaryButton(
+                double.infinity, 'Get Started', AppRoutes.bounsPage),
+          ),
+        );
+      }
+
       return Container(
         padding: EdgeInsets.symmetric(
           vertical: 30,
@@ -26,29 +173,11 @@ class SignUpPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BasicTextField(
-              label: 'Full Name',
-              hintText: 'Your Full Name',
-            ),
-            BasicTextField(
-              label: 'Email Adress',
-              hintText: 'Your Email Address',
-            ),
-            BasicTextField(
-              label: 'Password',
-              hintText: 'Your Password',
-              isPassword: true,
-            ),
-            BasicTextField(
-              label: 'Hobby',
-              hintText: 'Your Hobby',
-            ),
-            Center(
-                child: Container(
-              margin: EdgeInsets.only(top: 10),
-              child: PrimaryButton(MediaQuery.of(context).size.width - 88,
-                  'Get Started', AppRoutes.getStartedPage),
-            )),
+            _fullNameInput(),
+            _emailInput(),
+            _passwordInput(),
+            _hobbyInput(),
+            _getStartedButton()
           ],
         ),
       );

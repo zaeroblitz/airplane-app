@@ -8,5 +8,6 @@ class AppPage {
     AppRoutes.getStartedPage: (context) => GetStartedPage(),
     AppRoutes.signUpPage: (context) => SignUpPage(),
     AppRoutes.signInPage: (context) => SignInPage(),
+    AppRoutes.bounsPage: (context) => BonusPage(),
   };
 }

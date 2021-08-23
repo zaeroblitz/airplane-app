@@ -14,6 +14,86 @@ class SignInPage extends StatelessWidget {
     }
 
     Widget _inputSection() {
+      Widget _emailInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Email Address',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Email Address',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _passwordInput() {
+        return Container(
+          margin: EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Password',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 6),
+              TextFormField(
+                obscureText: true,
+                cursorColor: kBlackColor,
+                decoration: InputDecoration(
+                  hintText: 'Your Password',
+                  hintStyle: regularSubtitleTextStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(defaultRadius),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      Widget _signInButton() {
+        return Container(
+          margin: EdgeInsets.only(top: 10),
+          child: PrimaryButton(
+            MediaQuery.of(context).size.width - 88,
+            'Sign In',
+            AppRoutes.bounsPage,
+          ),
+        );
+      }
+
       return Container(
         padding: EdgeInsets.symmetric(
           vertical: 30,
@@ -26,20 +106,9 @@ class SignInPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BasicTextField(
-              label: 'Email Address',
-              hintText: 'Your Email Address',
-            ),
-            BasicTextField(
-              label: 'Password',
-              hintText: 'Your Password',
-              isPassword: true,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            PrimaryButton(MediaQuery.of(context).size.width - 88, 'Sign In',
-                AppRoutes.getStartedPage),
+            _emailInput(),
+            _passwordInput(),
+            _signInButton(),
           ],
         ),
       );
