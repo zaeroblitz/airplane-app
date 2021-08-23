@@ -8,6 +8,7 @@ Color kWhiteColor = Color(0xFFFFFFFF);
 Color kGreyColor = Color(0xFF9698A9);
 Color kGreenColor = Color(0xFF0EC3AE);
 Color kPinkColor = Color(0xFFEB70A5);
+Color kTransparentColor = Colors.transparent;
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;

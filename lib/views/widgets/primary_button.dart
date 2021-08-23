@@ -3,9 +3,13 @@ part of 'widgets.dart';
 class PrimaryButton extends StatelessWidget {
   final double width;
   final String text;
-  final String route;
+  final Function() onPressed;
 
-  PrimaryButton(this.width, this.text, this.route);
+  PrimaryButton({
+    this.width = double.infinity,
+    required this.text,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +17,7 @@ class PrimaryButton extends StatelessWidget {
       width: width,
       height: 55,
       child: TextButton(
-        onPressed: () => Navigator.pushNamed(context, route),
+        onPressed: onPressed,
         style: TextButton.styleFrom(
             backgroundColor: kPrimaryColor,
             shape: RoundedRectangleBorder(

@@ -4,9 +4,13 @@ class BasicTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final bool isPassword;
+  final String? Function(String?) validation;
 
   BasicTextField(
-      {this.label = '', this.hintText = '', this.isPassword = false});
+      {this.label = '',
+      this.hintText = '',
+      this.isPassword = false,
+      required this.validation});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,7 @@ class BasicTextField extends StatelessWidget {
           SizedBox(height: 6),
           TextFormField(
             obscureText: isPassword ? true : false,
+            validator: validation,
             cursorColor: kBlackColor,
             decoration: InputDecoration(
               hintText: hintText,

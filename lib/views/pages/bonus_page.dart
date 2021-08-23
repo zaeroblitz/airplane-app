@@ -114,7 +114,7 @@ class BonusPage extends StatelessWidget {
       return Column(
         children: [
           Text(
-            'Big Bonus',
+            'Big Bonus 🎉',
             style: bigTitleTextStyle,
           ),
           SizedBox(height: 10),
@@ -123,26 +123,40 @@ class BonusPage extends StatelessWidget {
             style: regularSubtitleTextStyle,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 50),
-          PrimaryButton(
-            220,
-            'Start Fly Now',
-            AppRoutes.signInPage,
-          ),
         ],
+      );
+    }
+
+    Widget _button() {
+      return Container(
+        margin: EdgeInsets.only(top: 50),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: kPrimaryColor.withOpacity(0.25),
+            blurRadius: 20,
+            offset: Offset(0, 10),
+          ),
+        ]),
+        child: PrimaryButton(
+          text: 'Start Fly Now',
+          width: 225,
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, AppRoutes.mainPage, (route) => false);
+          },
+        ),
       );
     }
 
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _bonusCard(),
-              _bigBonus(),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _bonusCard(),
+            _bigBonus(),
+            _button(),
+          ],
         ),
       ),
     );

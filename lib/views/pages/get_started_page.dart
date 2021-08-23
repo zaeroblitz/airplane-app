@@ -39,8 +39,13 @@ class GetStartedPage extends StatelessWidget {
                     top: 50,
                     bottom: 80,
                   ),
-                  child:
-                      PrimaryButton(225, 'Get Started', AppRoutes.signInPage),
+                  child: PrimaryButton(
+                    text: 'Get Started',
+                    width: 225,
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.signInPage);
+                    },
+                  ),
                 ),
               ],
             ),

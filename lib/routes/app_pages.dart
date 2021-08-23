@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 
 class AppPage {
   Map<String, Widget Function(BuildContext)> pages = {
+    AppRoutes.mainPage: (context) => MainPage(),
+    AppRoutes.homePage: (context) => HomePage(),
+    AppRoutes.bonusPage: (context) => BonusPage(),
     AppRoutes.splashPage: (context) => SplashPage(),
-    AppRoutes.getStartedPage: (context) => GetStartedPage(),
-    AppRoutes.signUpPage: (context) => SignUpPage(),
     AppRoutes.signInPage: (context) => SignInPage(),
-    AppRoutes.bounsPage: (context) => BonusPage(),
+    AppRoutes.signUpPage: (context) => SignUpPage(),
+    AppRoutes.getStartedPage: (context) => GetStartedPage(),
   };
 }

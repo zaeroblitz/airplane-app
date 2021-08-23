@@ -1,6 +1,26 @@
 part of 'pages.dart';
 
 class SignInPage extends StatelessWidget {
+  // Validator
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  static final _requiredValidator =
+      RequiredValidator(errorText: 'This field is required');
+
+  final _passwordValidator = MultiValidator(
+    [
+      _requiredValidator,
+      MinLengthValidator(8,
+          errorText: 'Password must be at least 8 digits long'),
+    ],
+  );
+
+  final _emailValidator = MultiValidator([
+    _requiredValidator,
+    EmailValidator(errorText: 'Enter a valid email address'),
+  ]);
+  // End of Validator
+
   @override
   Widget build(BuildContext context) {
     Widget _title() {
@@ -14,82 +34,20 @@ class SignInPage extends StatelessWidget {
     }
 
     Widget _inputSection() {
-      Widget _emailInput() {
-        return Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Email Address',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(height: 6),
-              TextFormField(
-                cursorColor: kBlackColor,
-                decoration: InputDecoration(
-                  hintText: 'Your Email Address',
-                  hintStyle: regularSubtitleTextStyle,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(defaultRadius),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(defaultRadius),
-                    borderSide: BorderSide(
-                      color: kPrimaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-
-      Widget _passwordInput() {
-        return Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Password',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(height: 6),
-              TextFormField(
-                obscureText: true,
-                cursorColor: kBlackColor,
-                decoration: InputDecoration(
-                  hintText: 'Your Password',
-                  hintStyle: regularSubtitleTextStyle,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(defaultRadius),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(defaultRadius),
-                    borderSide: BorderSide(
-                      color: kPrimaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-
       Widget _signInButton() {
         return Container(
           margin: EdgeInsets.only(top: 10),
           child: PrimaryButton(
-            MediaQuery.of(context).size.width - 88,
-            'Sign In',
-            AppRoutes.bounsPage,
+            text: 'Sign In',
+            onPressed: () {
+              final isValid = _formKey.currentState!.validate();
+
+              if (isValid) {
+                _formKey.currentState!.save();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AppRoutes.mainPage, (route) => false);
+              }
+            },
           ),
         );
       }
@@ -103,13 +61,29 @@ class SignInPage extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(defaultRadius),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _emailInput(),
-            _passwordInput(),
-            _signInButton(),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Email Address
+              BasicTextField(
+                validation: _emailValidator,
+                label: 'Email Address',
+                hintText: 'Your Email Address',
+              ),
+
+              // Password
+              BasicTextField(
+                validation: _passwordValidator,
+                label: 'Password',
+                hintText: 'Your Password',
+                isPassword: true,
+              ),
+
+              _signInButton(),
+            ],
+          ),
         ),
       );
     }
