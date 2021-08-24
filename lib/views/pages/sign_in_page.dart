@@ -58,7 +58,7 @@ class SignInPage extends StatelessWidget {
           horizontal: 20,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: kWhiteColor,
           borderRadius: BorderRadius.circular(defaultRadius),
         ),
         child: Form(

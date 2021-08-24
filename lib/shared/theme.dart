@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color kBackgroundColor = Color(0xFFFAFAFA);
-Color kPrimaryColor = Color(0xFF5C40CC);
-Color kBlackColor = Color(0xFF1F1449);
-Color kWhiteColor = Color(0xFFFFFFFF);
-Color kGreyColor = Color(0xFF9698A9);
-Color kGreenColor = Color(0xFF0EC3AE);
-Color kPinkColor = Color(0xFFEB70A5);
-Color kTransparentColor = Colors.transparent;
+const Color kBackgroundColor = Color(0xFFFAFAFA);
+const Color kPrimaryColor = Color(0xFF5C40CC);
+const Color kBlackColor = Color(0xFF1F1449);
+const Color kWhiteColor = Color(0xFFFFFFFF);
+const Color kGreyColor = Color(0xFF9698A9);
+const Color kGreenColor = Color(0xFF0EC3AE);
+const Color kPinkColor = Color(0xFFEB70A5);
+const Color kUnavailableColor = Color(0xFFEBECF1);
+const Color kTransparentColor = Colors.transparent;
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;

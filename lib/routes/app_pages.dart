@@ -12,5 +12,6 @@ class AppPage {
     AppRoutes.signInPage: (context) => SignInPage(),
     AppRoutes.signUpPage: (context) => SignUpPage(),
     AppRoutes.getStartedPage: (context) => GetStartedPage(),
+    AppRoutes.chooseSeatPage: (context) => ChooseSeatPage(),
   };
 }

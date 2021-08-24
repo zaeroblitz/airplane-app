@@ -3,13 +3,13 @@ part of 'pages.dart';
 class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Destination Cover
     Widget _destinationCover() {
       return Container(
         width: double.infinity,
         height: 460,
         child: Stack(
           children: [
-            // Destination Cover
             Container(
               width: double.infinity,
               height: 460,
@@ -27,80 +27,83 @@ class DetailPage extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     Colors.black.withOpacity(0),
-                    Colors.black.withOpacity(0.75),
+                    Colors.black.withOpacity(0.85),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
               ),
             ),
-
-            // Destination Location & Rating
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: double.infinity,
-                height: 460,
-                padding: EdgeInsets.only(
-                  top: 30,
-                  left: defaultMargin,
-                  right: defaultMargin,
-                  bottom: 80,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/icon_emblem.png',
-                      width: 108,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Lake Ciliwung',
-                                style: regularTitleTextStyle.copyWith(
-                                  color: kWhiteColor,
-                                ),
-                              ),
-                              Text(
-                                'Tangerang',
-                                style: regularSubtitleTextStyle.copyWith(
-                                  color: kWhiteColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/icon_star.png',
-                              width: 24,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              '4.8',
-                              style: whiteTextStyle.copyWith(
-                                fontWeight: medium,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       );
     }
 
+    // Destination Location & Rating
+    Widget _destinationLocation() {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          width: double.infinity,
+          height: 460,
+          padding: EdgeInsets.only(
+            top: 30,
+            left: defaultMargin,
+            right: defaultMargin,
+            bottom: 80,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                'assets/icon_emblem.png',
+                width: 108,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Lake Ciliwung',
+                          style: regularTitleTextStyle.copyWith(
+                            color: kWhiteColor,
+                          ),
+                        ),
+                        Text(
+                          'Tangerang',
+                          style: regularSubtitleTextStyle.copyWith(
+                            color: kWhiteColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon_star.png',
+                        width: 24,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        '4.8',
+                        style: whiteTextStyle.copyWith(
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Destination Content
     Widget _destinationContent() {
       Widget _destinationInformation() {
         return Container(
@@ -113,7 +116,7 @@ class DetailPage extends StatelessWidget {
             horizontal: defaultMargin,
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kWhiteColor,
             borderRadius: BorderRadius.circular(defaultRadius),
           ),
           child: Column(
@@ -222,7 +225,7 @@ class DetailPage extends StatelessWidget {
         );
       }
 
-      Widget _destinationPrice() {
+      Widget _destinationPriceAndButton() {
         return Container(
           margin: EdgeInsets.symmetric(
             vertical: 30,
@@ -238,7 +241,7 @@ class DetailPage extends StatelessWidget {
                     'IDR 2.500.000',
                     style: primaryTextStyle.copyWith(
                       fontSize: 18,
-                      fontWeight: medium,
+                      fontWeight: semiBold,
                     ),
                   ),
                   Text(
@@ -251,8 +254,10 @@ class DetailPage extends StatelessWidget {
                 width: 170,
                 text: 'Book Now',
                 onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, AppRoutes.mainPage, (route) => false);
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.chooseSeatPage,
+                  );
                 },
               )
             ],
@@ -262,11 +267,9 @@ class DetailPage extends StatelessWidget {
 
       return Column(
         children: [
-          Container(
-            height: 410,
-          ),
+          SizedBox(height: 410),
           _destinationInformation(),
-          _destinationPrice(),
+          _destinationPriceAndButton(),
         ],
       );
     }
@@ -277,6 +280,7 @@ class DetailPage extends StatelessWidget {
         child: Stack(
           children: [
             _destinationCover(),
+            _destinationLocation(),
             _destinationContent(),
           ],
         ),
