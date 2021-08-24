@@ -9,4 +9,5 @@ abstract class AppRoutes {
   static const checkoutPage = '/checkout-page';
   static const getStartedPage = '/get-started-page';
   static const chooseSeatPage = '/choose-seat-page';
+  static const successCheckoutPage = '/success-checkout-page';
 }

@@ -17,3 +17,4 @@ part 'sign_up_page.dart';
 part 'checkout_page.dart';
 part 'get_started_page.dart';
 part 'choose_seat_page.dart';
+part 'success_checkout_page.dart';

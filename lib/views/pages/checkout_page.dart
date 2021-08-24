@@ -333,7 +333,7 @@ class CheckoutPage extends StatelessWidget {
         child: PrimaryButton(
           text: 'Pay Now',
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.mainPage);
+            Navigator.pushNamed(context, AppRoutes.successCheckoutPage);
           },
         ),
       );

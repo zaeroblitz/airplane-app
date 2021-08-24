@@ -14,5 +14,6 @@ class AppPage {
     AppRoutes.checkoutPage: (context) => CheckoutPage(),
     AppRoutes.getStartedPage: (context) => GetStartedPage(),
     AppRoutes.chooseSeatPage: (context) => ChooseSeatPage(),
+    AppRoutes.successCheckoutPage: (context) => SuccessCheckoutPage(),
   };
 }
