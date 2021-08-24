@@ -14,5 +14,6 @@ part 'splash_page.dart';
 part 'detail_page.dart';
 part 'sign_in_page.dart';
 part 'sign_up_page.dart';
+part 'checkout_page.dart';
 part 'get_started_page.dart';
 part 'choose_seat_page.dart';

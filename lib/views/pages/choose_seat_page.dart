@@ -194,7 +194,10 @@ class ChooseSeatPage extends StatelessWidget {
         child: PrimaryButton(
           text: 'Continue to Checkout',
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.mainPage);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.checkoutPage,
+            );
           },
         ),
       );
