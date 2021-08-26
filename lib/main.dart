@@ -1,3 +1,6 @@
+import 'package:airplane/cubit/page_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '/routes/app_pages.dart';
 import 'views/pages/pages.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashPage(),
-      routes: AppPage().pages,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => PageCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashPage(),
+        routes: AppPage().pages,
+      ),
     );
   }
 }

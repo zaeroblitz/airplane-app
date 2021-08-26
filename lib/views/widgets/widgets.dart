@@ -1,6 +1,9 @@
-import '../../shared/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:airplane/routes/app_routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../shared/theme.dart';
+import '../../cubit/page_cubit.dart';
+import '../../routes/app_routes.dart';
 
 part 'navbar_icon.dart';
 part 'interest_item.dart';

@@ -1,38 +1,44 @@
 part of 'widgets.dart';
 
 class NavbarIcon extends StatelessWidget {
+  final int index;
   final String iconUrl;
-  final bool isActive;
 
   NavbarIcon({
     this.iconUrl = '',
-    this.isActive = false,
+    this.index = 0,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(height: 2),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(iconUrl),
+    return GestureDetector(
+      onTap: () {
+        context.read<PageCubit>().setPage(index);
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(height: 2),
+          Image.asset(
+            iconUrl,
+            width: 24,
+            height: 24,
+            color: context.read<PageCubit>().state == index
+                ? kPrimaryColor
+                : kGreyColor,
+          ),
+          Container(
+            width: 30,
+            height: 2,
+            decoration: BoxDecoration(
+              color: context.read<PageCubit>().state == index
+                  ? kPrimaryColor
+                  : kTransparentColor,
+              borderRadius: BorderRadius.circular(defaultRadius),
             ),
           ),
-        ),
-        Container(
-          width: 30,
-          height: 2,
-          decoration: BoxDecoration(
-            color: isActive ? kPrimaryColor : kTransparentColor,
-            borderRadius: BorderRadius.circular(defaultRadius),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

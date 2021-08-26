@@ -3,8 +3,19 @@ part of 'pages.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget _buildContext() {
-      return HomePage();
+    Widget _buildContext(int currentIndex) {
+      switch (currentIndex) {
+        case 0:
+          return HomePage();
+        case 1:
+          return TransactionPage();
+        case 2:
+          return WalletPage();
+        case 3:
+          return SettingPage();
+        default:
+          return HomePage();
+      }
     }
 
     Widget _bottomNav() {
@@ -27,19 +38,19 @@ class MainPage extends StatelessWidget {
             children: [
               NavbarIcon(
                 iconUrl: 'assets/icon_home.png',
-                isActive: true,
+                index: 0,
               ),
               NavbarIcon(
                 iconUrl: 'assets/icon_booking.png',
-                isActive: false,
+                index: 1,
               ),
               NavbarIcon(
                 iconUrl: 'assets/icon_wallet.png',
-                isActive: false,
+                index: 2,
               ),
               NavbarIcon(
                 iconUrl: 'assets/icon_setting.png',
-                isActive: false,
+                index: 3,
               ),
             ],
           ),
@@ -47,14 +58,18 @@ class MainPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: Stack(
-        children: [
-          _buildContext(),
-          _bottomNav(),
-        ],
-      ),
+    return BlocBuilder<PageCubit, int>(
+      builder: (_, currentIndex) {
+        return Scaffold(
+          backgroundColor: kBackgroundColor,
+          body: Stack(
+            children: [
+              _buildContext(currentIndex),
+              _bottomNav(),
+            ],
+          ),
+        );
+      },
     );
   }
 }
