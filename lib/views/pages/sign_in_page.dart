@@ -1,25 +1,11 @@
 part of 'pages.dart';
 
 class SignInPage extends StatelessWidget {
-  // Validator
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  static final _requiredValidator =
-      RequiredValidator(errorText: 'This field is required');
-
-  final _passwordValidator = MultiValidator(
-    [
-      _requiredValidator,
-      MinLengthValidator(8,
-          errorText: 'Password must be at least 8 digits long'),
-    ],
-  );
-
-  final _emailValidator = MultiValidator([
-    _requiredValidator,
-    EmailValidator(errorText: 'Enter a valid email address'),
-  ]);
-  // End of Validator
+  final TextEditingController _emailController =
+      TextEditingController(text: '');
+  final TextEditingController _passwordController =
+      TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -68,17 +54,19 @@ class SignInPage extends StatelessWidget {
             children: [
               // Email Address
               BasicTextField(
-                validation: _emailValidator,
+                validation: emailValidator,
                 label: 'Email Address',
                 hintText: 'Your Email Address',
+                controller: _emailController,
               ),
 
               // Password
               BasicTextField(
-                validation: _passwordValidator,
+                validation: passwordValidator,
                 label: 'Password',
                 hintText: 'Your Password',
                 isPassword: true,
+                controller: _passwordController,
               ),
 
               _signInButton(),

@@ -1,25 +1,16 @@
 part of 'pages.dart';
 
 class SignUpPage extends StatelessWidget {
-  // Validator
+  SignUpPage({Key? key}) : super(key: key);
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  static final _requiredValidator =
-      RequiredValidator(errorText: 'This field is required');
-
-  final _passwordValidator = MultiValidator(
-    [
-      _requiredValidator,
-      MinLengthValidator(8,
-          errorText: 'Password must be at least 8 digits long'),
-    ],
-  );
-
-  final _emailValidator = MultiValidator([
-    _requiredValidator,
-    EmailValidator(errorText: 'Enter a valid email address'),
-  ]);
-  // End of Validator
+  final TextEditingController _nameController = TextEditingController(text: '');
+  final TextEditingController _emailController =
+      TextEditingController(text: '');
+  final TextEditingController _hobbyController =
+      TextEditingController(text: '');
+  final TextEditingController _passwordController =
+      TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +26,53 @@ class SignUpPage extends StatelessWidget {
 
     Widget _inputSection() {
       Widget _getStartedButton() {
-        return Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 10),
-            child: PrimaryButton(
-              text: 'Get Started',
-              onPressed: () {
-                final isValid = _formKey.currentState!.validate();
+        return BlocConsumer<AuthCubit, AuthState>(
+          listener: (_, state) {
+            if (state is AuthSuccess) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoutes.bonusPage, (route) => false);
+            } else if (state is AuthFailed) {
+              print(state.error);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: kPinkColor,
+                  content: Text(state.error),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return SpinKitWave(
+                size: 50,
+                color: kPrimaryColor,
+                duration: Duration(seconds: 3),
+              );
+            }
 
-                if (isValid) {
-                  _formKey.currentState!.save();
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, AppRoutes.bonusPage, (route) => false);
-                }
-              },
-            ),
-          ),
+            return Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                child: PrimaryButton(
+                  text: 'Get Started',
+                  onPressed: () {
+                    final isValid = _formKey.currentState!.validate();
+
+                    if (isValid) {
+                      _formKey.currentState!.save();
+
+                      context.read<AuthCubit>().signUp(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            name: _nameController.text,
+                            hobby: _hobbyController.text,
+                          );
+                    }
+                  },
+                ),
+              ),
+            );
+          },
         );
       }
 
@@ -70,31 +92,35 @@ class SignUpPage extends StatelessWidget {
             children: [
               // Full Name
               BasicTextField(
-                validation: _requiredValidator,
+                validation: requiredValidator,
                 label: 'Full Name',
                 hintText: 'Your Full Name',
+                controller: _nameController,
               ),
 
               // Email Address
               BasicTextField(
-                validation: _emailValidator,
+                validation: emailValidator,
                 label: 'Email Address',
                 hintText: 'Your Email Address',
+                controller: _emailController,
               ),
 
               // Password
               BasicTextField(
-                validation: _passwordValidator,
+                validation: passwordValidator,
                 label: 'Password',
                 hintText: 'Your Password',
                 isPassword: true,
+                controller: _passwordController,
               ),
 
               // Hobby
               BasicTextField(
-                validation: _requiredValidator,
+                validation: requiredValidator,
                 label: 'Hobby',
                 hintText: 'Your Hobby',
+                controller: _hobbyController,
               ),
 
               _getStartedButton()

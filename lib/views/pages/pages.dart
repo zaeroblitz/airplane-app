@@ -1,11 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../widgets/widgets.dart';
 import '../../shared/theme.dart';
+import '../../shared/validator.dart';
+import '../../cubit/auth_cubit.dart';
 import '../../cubit/page_cubit.dart';
 import '../../routes/app_routes.dart';
 

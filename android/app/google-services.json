@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659729066402",
+    "project_id": "airplane-962fc",
+    "storage_bucket": "airplane-962fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659729066402:android:541282c3a1b9348ac3eafb",
+        "android_client_info": {
+          "package_name": "com.zaeroblitz.airplane"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659729066402-3vt373gsmmb7054ftl53iqn2pm5g15qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSPPdHxSZuAE4vZ0QWWHKKcmzRtlFwDNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659729066402-3vt373gsmmb7054ftl53iqn2pm5g15qb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

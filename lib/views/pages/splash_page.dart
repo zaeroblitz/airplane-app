@@ -11,8 +11,15 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Timer(Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, AppRoutes.getStartedPage, (route) => false);
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, AppRoutes.getStartedPage, (route) => false);
+      } else {
+        Navigator.restorablePushNamedAndRemoveUntil(
+            context, AppRoutes.mainPage, (route) => false);
+      }
     });
     super.initState();
   }
