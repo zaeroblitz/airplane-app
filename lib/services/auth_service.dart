@@ -27,4 +27,12 @@ class AuthService {
       throw e;
     }
   }
+
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      throw e;
+    }
+  }
 }

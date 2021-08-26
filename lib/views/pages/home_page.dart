@@ -4,49 +4,57 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _header() {
-      return Container(
-        margin: EdgeInsets.symmetric(
-          vertical: 30,
-          horizontal: defaultMargin,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Howdy,\nKezia Anne',
-                    style: regularTitleTextStyle,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+      return BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSuccess) {
+            return Container(
+              margin: EdgeInsets.symmetric(
+                vertical: 30,
+                horizontal: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Howdy,\n${state.user.name}',
+                          style: regularTitleTextStyle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage('assets/image_user_picture.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/image_user_picture.png'),
-                      fit: BoxFit.cover,
-                    ),
+                  SizedBox(
+                    height: 6,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 6,
-            ),
-            Text(
-              'Where to fly today?',
-              style: regularSubtitleTextStyle,
-            ),
-          ],
-        ),
+                  Text(
+                    'Where to fly today?',
+                    style: regularSubtitleTextStyle,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox();
+          }
+        },
       );
     }
 
