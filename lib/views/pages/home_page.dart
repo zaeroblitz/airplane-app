@@ -1,6 +1,17 @@
 part of 'pages.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<DestinationCubit>().fetchDestination();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _header() {
@@ -58,7 +69,7 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    Widget _popularDestination() {
+    Widget _popularDestination(List<DestinationModel> destinations) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -75,38 +86,9 @@ class HomePage extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(left: defaultMargin),
               child: Row(
-                children: [
-                  PopularDestinationItem(
-                    rating: 4.8,
-                    imageUrl: 'assets/image_destination_1.png',
-                    name: 'Lake Ciliwung',
-                    city: 'Tangerang',
-                  ),
-                  PopularDestinationItem(
-                    rating: 4.7,
-                    imageUrl: 'assets/image_destination_2.png',
-                    name: 'White House',
-                    city: 'Spain',
-                  ),
-                  PopularDestinationItem(
-                    rating: 4.8,
-                    imageUrl: 'assets/image_destination_3.png',
-                    name: 'Hill Heyo',
-                    city: 'Monaco',
-                  ),
-                  PopularDestinationItem(
-                    rating: 5,
-                    imageUrl: 'assets/image_destination_4.png',
-                    name: 'Menarra',
-                    city: 'Japan',
-                  ),
-                  PopularDestinationItem(
-                    rating: 4.8,
-                    imageUrl: 'assets/image_destination_5.png',
-                    name: 'Payung Teduh',
-                    city: 'Singapore',
-                  ),
-                ],
+                children: destinations.map((DestinationModel destination) {
+                  return PopularDestinationItem(destination);
+                }).toList(),
               ),
             ),
           )
@@ -114,7 +96,7 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    Widget _newDestination() {
+    Widget _newDestination(List<DestinationModel> destinations) {
       return Container(
         margin: EdgeInsets.only(
           top: 30,
@@ -131,50 +113,41 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Column(
-              children: [
-                NewDestinationItem(
-                  rating: 4.5,
-                  imageUrl: 'assets/image_destination_6.png',
-                  name: 'Danau Beratan',
-                  location: 'Singaraja',
-                ),
-                NewDestinationItem(
-                  rating: 4.7,
-                  imageUrl: 'assets/image_destination_7.png',
-                  name: 'Sydney Opera',
-                  location: 'Australia',
-                ),
-                NewDestinationItem(
-                  rating: 4.8,
-                  imageUrl: 'assets/image_destination_8.png',
-                  name: 'Roma',
-                  location: 'Italy',
-                ),
-                NewDestinationItem(
-                  rating: 4.5,
-                  imageUrl: 'assets/image_destination_9.png',
-                  name: 'Payung Teduh',
-                  location: 'Singapore',
-                ),
-                NewDestinationItem(
-                  rating: 4.7,
-                  imageUrl: 'assets/image_destination_10.png',
-                  name: 'Hill Heyo',
-                  location: 'Monaco',
-                ),
-              ],
+              children: destinations.map((DestinationModel destination) {
+                return NewDestinationItem(destination);
+              }).toList(),
             ),
           ],
         ),
       );
     }
 
-    return ListView(
-      children: [
-        _header(),
-        _popularDestination(),
-        _newDestination(),
-      ],
+    return BlocConsumer<DestinationCubit, DestinationState>(
+      listener: (context, state) {
+        if (state is DestinationError) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.error),
+            backgroundColor: kPinkColor,
+          ));
+        }
+      },
+      builder: (context, state) {
+        if (state is DestinationSuccess) {
+          return ListView(
+            children: [
+              _header(),
+              _popularDestination(state.destinations),
+              _newDestination(state.destinations),
+            ],
+          );
+        }
+
+        return SpinKitWanderingCubes(
+          size: 50,
+          color: kPrimaryColor,
+          duration: Duration(seconds: 3),
+        );
+      },
     );
   }
 }

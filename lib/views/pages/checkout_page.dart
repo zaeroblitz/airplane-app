@@ -219,12 +219,12 @@ class CheckoutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Destination Cover, Location, Rating
-            NewDestinationItem(
-              imageUrl: 'assets/image_destination_1.png',
-              name: 'Lake Ciliwung',
-              location: 'Tangerang',
-              rating: 4.8,
-            ),
+            // NewDestinationItem(
+            //   imageUrl: 'assets/image_destination_1.png',
+            //   name: 'Lake Ciliwung',
+            //   location: 'Tangerang',
+            //   rating: 4.8,
+            // ),
             _bookingDetails(),
           ],
         ),

@@ -3,6 +3,9 @@ part of 'pages.dart';
 class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final DestinationModel destination =
+        ModalRoute.of(context)!.settings.arguments as DestinationModel;
+
     // Destination Cover
     Widget _destinationCover() {
       return Container(
@@ -15,7 +18,7 @@ class DetailPage extends StatelessWidget {
               height: 460,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/image_destination_1.png'),
+                  image: NetworkImage(destination.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,13 +69,13 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Lake Ciliwung',
+                          destination.name,
                           style: regularTitleTextStyle.copyWith(
                             color: kWhiteColor,
                           ),
                         ),
                         Text(
-                          'Tangerang',
+                          destination.city,
                           style: regularSubtitleTextStyle.copyWith(
                             color: kWhiteColor,
                           ),
@@ -88,7 +91,7 @@ class DetailPage extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        '4.8',
+                        destination.rating.toString(),
                         style: whiteTextStyle.copyWith(
                           fontWeight: medium,
                         ),
@@ -238,7 +241,11 @@ class DetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'IDR 2.500.000',
+                    NumberFormat.currency(
+                      locale: 'ID',
+                      symbol: 'IDR ',
+                      decimalDigits: 0,
+                    ).format(destination.price),
                     style: primaryTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: semiBold,

@@ -1,23 +1,16 @@
 part of 'widgets.dart';
 
 class PopularDestinationItem extends StatelessWidget {
-  final double rating;
-  final String imageUrl;
-  final String name;
-  final String city;
+  final DestinationModel destination;
 
-  PopularDestinationItem({
-    this.rating = 0,
-    required this.imageUrl,
-    required this.name,
-    required this.city,
-  });
+  PopularDestinationItem(this.destination);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.detailPage);
+        Navigator.pushNamed(context, AppRoutes.detailPage,
+            arguments: destination);
       },
       child: Container(
         width: 200,
@@ -46,7 +39,7 @@ class PopularDestinationItem extends StatelessWidget {
                     height: 220,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(imageUrl),
+                        image: NetworkImage(destination.imageUrl),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(defaultRadius),
@@ -81,7 +74,7 @@ class PopularDestinationItem extends StatelessWidget {
                             width: 2,
                           ),
                           Text(
-                            rating.toString(),
+                            destination.rating.toString(),
                             style: primaryTextStyle.copyWith(
                               fontWeight: medium,
                             ),
@@ -101,7 +94,7 @@ class PopularDestinationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    destination.name,
                     style: primaryTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: medium,
@@ -113,7 +106,7 @@ class PopularDestinationItem extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    city,
+                    destination.city,
                     style: smallSubtitleTextStyle,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

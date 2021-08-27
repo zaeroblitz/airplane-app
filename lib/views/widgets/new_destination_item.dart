@@ -1,23 +1,16 @@
 part of 'widgets.dart';
 
 class NewDestinationItem extends StatelessWidget {
-  final double rating;
-  final String imageUrl;
-  final String name;
-  final String location;
+  final DestinationModel destination;
 
-  NewDestinationItem({
-    this.rating = 0,
-    required this.imageUrl,
-    required this.name,
-    required this.location,
-  });
+  NewDestinationItem(this.destination);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.detailPage);
+        Navigator.pushNamed(context, AppRoutes.detailPage,
+            arguments: destination);
       },
       child: Container(
         width: double.infinity,
@@ -37,7 +30,7 @@ class NewDestinationItem extends StatelessWidget {
               margin: EdgeInsets.only(right: 16),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(imageUrl),
+                  image: NetworkImage(destination.imageUrl),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(defaultRadius),
@@ -51,7 +44,7 @@ class NewDestinationItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    name,
+                    destination.name,
                     style: primaryTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: medium,
@@ -61,7 +54,7 @@ class NewDestinationItem extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    location,
+                    destination.city,
                     style: regularSubtitleTextStyle,
                   )
                 ],
@@ -83,7 +76,7 @@ class NewDestinationItem extends StatelessWidget {
                   width: 4,
                 ),
                 Text(
-                  rating.toString(),
+                  destination.rating.toString(),
                   style: primaryTextStyle.copyWith(
                     fontWeight: medium,
                   ),
