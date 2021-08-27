@@ -145,11 +145,7 @@ class SignUpPage extends StatelessWidget {
               style: regularSubtitleTextStyle,
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.signInPage,
-                (route) => false,
-              ),
+              onTap: () => Navigator.pop(context),
               child: Text(
                 'Sign In',
                 textAlign: TextAlign.center,

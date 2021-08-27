@@ -21,20 +21,45 @@ class SignInPage extends StatelessWidget {
 
     Widget _inputSection() {
       Widget _signInButton() {
-        return Container(
-          margin: EdgeInsets.only(top: 10),
-          child: PrimaryButton(
-            text: 'Sign In',
-            onPressed: () {
-              final isValid = _formKey.currentState!.validate();
+        return BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSuccess) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoutes.mainPage, (route) => false);
+            } else if (state is AuthFailed) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.error),
+                backgroundColor: kPinkColor,
+              ));
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              SpinKitWanderingCubes(
+                size: 50,
+                color: kPrimaryColor,
+                duration: Duration(seconds: 3),
+              );
+            }
 
-              if (isValid) {
-                _formKey.currentState!.save();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, AppRoutes.mainPage, (route) => false);
-              }
-            },
-          ),
+            return Container(
+              margin: EdgeInsets.only(top: 10),
+              child: PrimaryButton(
+                text: 'Sign In',
+                onPressed: () {
+                  final isValid = _formKey.currentState!.validate();
+
+                  if (isValid) {
+                    _formKey.currentState!.save();
+                    context.read<AuthCubit>().signIn(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                  }
+                },
+              ),
+            );
+          },
         );
       }
 
