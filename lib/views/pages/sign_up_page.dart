@@ -43,7 +43,7 @@ class SignUpPage extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              return SpinKitWave(
+              return SpinKitWanderingCubes(
                 size: 50,
                 color: kPrimaryColor,
                 duration: Duration(seconds: 3),

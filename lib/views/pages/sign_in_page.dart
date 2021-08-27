@@ -35,7 +35,7 @@ class SignInPage extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              SpinKitWanderingCubes(
+              return SpinKitWanderingCubes(
                 size: 50,
                 color: kPrimaryColor,
                 duration: Duration(seconds: 3),
@@ -51,6 +51,7 @@ class SignInPage extends StatelessWidget {
 
                   if (isValid) {
                     _formKey.currentState!.save();
+                    context.read<PageCubit>().setPage(0);
                     context.read<AuthCubit>().signIn(
                           email: _emailController.text,
                           password: _passwordController.text,

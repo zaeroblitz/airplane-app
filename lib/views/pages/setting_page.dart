@@ -15,7 +15,6 @@ class SettingPage extends StatelessWidget {
             ),
           );
         } else if (state is AuthInitial) {
-          context.read<PageCubit>().setPage(0);
           Navigator.pushNamedAndRemoveUntil(
               context, AppRoutes.signInPage, (route) => false);
         }
