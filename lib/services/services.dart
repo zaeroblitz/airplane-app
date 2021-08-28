@@ -6,3 +6,4 @@ import '../models/models.dart';
 part 'auth_service.dart';
 part 'user_service.dart';
 part 'destination_service.dart';
+part 'transaction_service.dart';

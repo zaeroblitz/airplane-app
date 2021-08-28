@@ -5,6 +5,9 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TransactionModel transaction =
+        ModalRoute.of(context)!.settings.arguments as TransactionModel;
+
     Widget _header() {
       return Container(
         child: Column(
@@ -84,7 +87,7 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('Traveler'),
                   Text(
-                    '2 person',
+                    '${transaction.amountOfTraveler}',
                     style: primaryTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
@@ -98,14 +101,19 @@ class CheckoutPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InterestItem('Seat'),
-                  Text(
-                    'A3, B3',
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
+                  SizedBox(width: 70),
+                  Expanded(
+                    child: Text(
+                      transaction.selectedSeats,
+                      style: primaryTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: semiBold,
+                      ),
+                      textAlign: TextAlign.end,
                     ),
                   ),
                 ],
@@ -120,11 +128,16 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('Insurance'),
                   Text(
-                    'Yes',
-                    style: greenTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
+                    transaction.insurance ? 'YES' : 'NO',
+                    style: transaction.insurance
+                        ? greenTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: semiBold,
+                          )
+                        : pinkTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: semiBold,
+                          ),
                   ),
                 ],
               ),
@@ -138,11 +151,16 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('Refundable'),
                   Text(
-                    'No',
-                    style: pinkTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
+                    transaction.refundable ? 'YES' : 'NO',
+                    style: transaction.refundable
+                        ? greenTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: semiBold,
+                          )
+                        : pinkTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: semiBold,
+                          ),
                   ),
                 ],
               ),
@@ -156,7 +174,7 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('VAT'),
                   Text(
-                    '45%',
+                    '${(transaction.vat * 100).toInt()}%',
                     style: primaryTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
@@ -174,7 +192,9 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('Price'),
                   Text(
-                    'IDR 8.500.690',
+                    NumberFormat.currency(
+                            locale: 'ID', symbol: 'IDR ', decimalDigits: 0)
+                        .format(transaction.price),
                     style: primaryTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
@@ -192,7 +212,9 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   InterestItem('Price'),
                   Text(
-                    'IDR 12.000.000',
+                    NumberFormat.currency(
+                            locale: 'ID', symbol: 'IDR ', decimalDigits: 0)
+                        .format(transaction.totalPrice),
                     style: purpleTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
@@ -219,12 +241,7 @@ class CheckoutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Destination Cover, Location, Rating
-            // NewDestinationItem(
-            //   imageUrl: 'assets/image_destination_1.png',
-            //   name: 'Lake Ciliwung',
-            //   location: 'Tangerang',
-            //   rating: 4.8,
-            // ),
+            NewDestinationItem(transaction.destination),
             _bookingDetails(),
           ],
         ),
@@ -232,110 +249,147 @@ class CheckoutPage extends StatelessWidget {
     }
 
     Widget _paymentDetails() {
-      return Container(
-        margin: EdgeInsets.only(bottom: 30),
-        padding: EdgeInsets.symmetric(
-          vertical: 30,
-          horizontal: 20,
-        ),
-        decoration: BoxDecoration(
-          color: kWhiteColor,
-          borderRadius: BorderRadius.circular(defaultRadius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Payment Details',
-              style: primaryTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
+      return BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSuccess) {
+            return Container(
+              margin: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.symmetric(
+                vertical: 30,
+                horizontal: 20,
               ),
-            ),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  width: 100,
-                  height: 70,
-                  margin: EdgeInsets.only(right: 16),
-                  child: Stack(
+              decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Payment Details',
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Row(
                     children: [
                       Container(
-                        width: 170,
+                        width: 100,
                         height: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/card_wallet.png'),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(defaultRadius),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        margin: EdgeInsets.only(right: 16),
+                        child: Stack(
                           children: [
                             Container(
-                              width: 24,
-                              height: 24,
-                              margin: EdgeInsets.only(right: 6),
+                              width: 170,
+                              height: 70,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage('assets/icon_airplane.png'),
+                                  image: AssetImage('assets/card_wallet.png'),
                                   fit: BoxFit.cover,
                                 ),
+                                borderRadius:
+                                    BorderRadius.circular(defaultRadius),
                               ),
                             ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    margin: EdgeInsets.only(right: 6),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/icon_airplane.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Pay',
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 16,
+                                      fontWeight: medium,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              'Pay',
-                              style: whiteTextStyle.copyWith(
-                                fontSize: 16,
+                              NumberFormat.currency(
+                                      locale: 'ID',
+                                      symbol: 'IDR ',
+                                      decimalDigits: 0)
+                                  .format(state.user.balance),
+                              style: primaryTextStyle.copyWith(
+                                fontSize: 18,
                                 fontWeight: medium,
                               ),
                             ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Current Wallet',
+                              style: regularSubtitleTextStyle,
+                            ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'IDR 80.400.000',
-                        style: primaryTextStyle.copyWith(
-                          fontSize: 18,
-                          fontWeight: medium,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Current Wallet',
-                        style: regularSubtitleTextStyle,
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox();
+          }
+        },
       );
     }
 
     Widget _payButton() {
-      return Container(
-        margin: EdgeInsets.only(bottom: 30),
-        child: PrimaryButton(
-          text: 'Pay Now',
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.successCheckoutPage);
-          },
-        ),
+      return BlocConsumer<TransactionCubit, TransactionState>(
+        listener: (context, state) {
+          if (state is TranasactionSuccess) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, AppRoutes.successCheckoutPage, (route) => false);
+          } else if (state is TransactionFailed) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.error),
+              backgroundColor: kPinkColor,
+            ));
+          }
+        },
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return SpinKitWanderingCubes(
+              size: 50,
+              color: kPrimaryColor,
+              duration: Duration(seconds: 3),
+            );
+          }
+
+          return Container(
+            margin: EdgeInsets.only(bottom: 30),
+            child: PrimaryButton(
+              text: 'Pay Now',
+              onPressed: () {
+                context.read<TransactionCubit>().createTransaction(transaction);
+              },
+            ),
+          );
+        },
       );
     }
 

@@ -1,3 +1,4 @@
+import 'package:airplane/cubit/transaction_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SeatCubit()),
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => DestinationCubit()),
+        BlocProvider(create: (_) => TransactionCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

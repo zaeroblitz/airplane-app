@@ -14,6 +14,7 @@ import '../../cubit/page_cubit.dart';
 import '../../cubit/seat_cubit.dart';
 import '../../routes/app_routes.dart';
 import '../../cubit/destination_cubit.dart';
+import '../../cubit/transaction_cubit.dart';
 
 part 'main_page.dart';
 part 'home_page.dart';

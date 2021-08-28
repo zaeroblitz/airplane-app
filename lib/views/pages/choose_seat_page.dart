@@ -207,17 +207,39 @@ class ChooseSeatPage extends StatelessWidget {
     }
 
     Widget _continueCheckoutButton() {
-      return Container(
-        margin: EdgeInsets.only(top: 30),
-        child: PrimaryButton(
-          text: 'Continue to Checkout',
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.checkoutPage,
-            );
-          },
-        ),
+      return BlocBuilder<SeatCubit, List<String>>(
+        builder: (context, state) {
+          return Container(
+            margin: EdgeInsets.only(top: 30),
+            child: state.isEmpty
+                ? PrimaryButton(
+                    text: 'Continue to Checkout',
+                    onPressed: () {},
+                    isDisabled: true,
+                  )
+                : PrimaryButton(
+                    text: 'Continue to Checkout',
+                    onPressed: () {
+                      int price = destination.price * state.length;
+
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.checkoutPage,
+                        arguments: TransactionModel(
+                          destination: destination,
+                          amountOfTraveler: state.length,
+                          selectedSeats: state.join(', '),
+                          insurance: true,
+                          refundable: false,
+                          vat: 0.1,
+                          price: price,
+                          totalPrice: price + (price * 0.1).toInt(),
+                        ),
+                      );
+                    },
+                  ),
+          );
+        },
       );
     }
 
