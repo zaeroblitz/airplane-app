@@ -11,6 +11,7 @@ import '../../models/models.dart';
 import '../../shared/validator.dart';
 import '../../cubit/auth_cubit.dart';
 import '../../cubit/page_cubit.dart';
+import '../../cubit/seat_cubit.dart';
 import '../../routes/app_routes.dart';
 import '../../cubit/destination_cubit.dart';
 

@@ -264,6 +264,7 @@ class DetailPage extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     AppRoutes.chooseSeatPage,
+                    arguments: destination,
                   );
                 },
               )

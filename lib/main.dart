@@ -1,12 +1,13 @@
-import 'package:airplane/cubit/auth_cubit.dart';
-import 'package:airplane/cubit/destination_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '/cubit/page_cubit.dart';
+import '/cubit/auth_cubit.dart';
+import '/cubit/seat_cubit.dart';
 import '/routes/app_pages.dart';
 import '/views/pages/pages.dart';
+import '/cubit/destination_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => PageCubit()),
+        BlocProvider(create: (_) => SeatCubit()),
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => DestinationCubit()),
       ],

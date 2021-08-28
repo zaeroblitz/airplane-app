@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/theme.dart';
 import '../../models/models.dart';
 import '../../cubit/page_cubit.dart';
+import '../../cubit/seat_cubit.dart';
 import '../../routes/app_routes.dart';
 
 part 'navbar_icon.dart';
