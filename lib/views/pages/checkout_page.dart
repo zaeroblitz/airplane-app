@@ -67,166 +67,6 @@ class CheckoutPage extends StatelessWidget {
     }
 
     Widget _checkoutDetails() {
-      Widget _bookingDetails() {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Booking Details',
-              style: primaryTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
-              ),
-            ),
-
-            // Traveler
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Traveler'),
-                  Text(
-                    '${transaction.amountOfTraveler}',
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Seat
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Seat'),
-                  SizedBox(width: 70),
-                  Expanded(
-                    child: Text(
-                      transaction.selectedSeats,
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: semiBold,
-                      ),
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Insurance
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Insurance'),
-                  Text(
-                    transaction.insurance ? 'YES' : 'NO',
-                    style: transaction.insurance
-                        ? greenTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          )
-                        : pinkTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Refundable
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Refundable'),
-                  Text(
-                    transaction.refundable ? 'YES' : 'NO',
-                    style: transaction.refundable
-                        ? greenTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          )
-                        : pinkTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                          ),
-                  ),
-                ],
-              ),
-            ),
-
-            // VAT
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('VAT'),
-                  Text(
-                    '${(transaction.vat * 100).toInt()}%',
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Price
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Price'),
-                  Text(
-                    NumberFormat.currency(
-                            locale: 'ID', symbol: 'IDR ', decimalDigits: 0)
-                        .format(transaction.price),
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Grand Total
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InterestItem('Price'),
-                  Text(
-                    NumberFormat.currency(
-                            locale: 'ID', symbol: 'IDR ', decimalDigits: 0)
-                        .format(transaction.totalPrice),
-                    style: purpleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      }
-
       return Container(
         margin: EdgeInsets.symmetric(vertical: 30),
         padding: EdgeInsets.symmetric(
@@ -242,7 +82,7 @@ class CheckoutPage extends StatelessWidget {
           children: [
             // Destination Cover, Location, Rating
             NewDestinationItem(transaction.destination),
-            _bookingDetails(),
+            TransactionCard(transaction),
           ],
         ),
       );
@@ -361,7 +201,8 @@ class CheckoutPage extends StatelessWidget {
     Widget _payButton() {
       return BlocConsumer<TransactionCubit, TransactionState>(
         listener: (context, state) {
-          if (state is TranasactionSuccess) {
+          if (state is TransactionSuccess) {
+            context.read<SeatCubit>().state.clear();
             Navigator.pushNamedAndRemoveUntil(
                 context, AppRoutes.successCheckoutPage, (route) => false);
           } else if (state is TransactionFailed) {
@@ -408,24 +249,31 @@ class CheckoutPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.only(
-            top: 30,
-            left: defaultMargin,
-            right: defaultMargin,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _header(),
-                _checkoutDetails(),
-                _paymentDetails(),
-                _payButton(),
-                _termsAndCondition(),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<SeatCubit>().state.clear();
+        Navigator.pushNamed(context, AppRoutes.detailPage);
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 30,
+              left: defaultMargin,
+              right: defaultMargin,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _header(),
+                  _checkoutDetails(),
+                  _paymentDetails(),
+                  _payButton(),
+                  _termsAndCondition(),
+                ],
+              ),
             ),
           ),
         ),

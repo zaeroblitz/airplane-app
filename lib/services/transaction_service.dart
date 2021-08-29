@@ -8,7 +8,7 @@ class TransactionService {
     try {
       _transactionRef.add({
         'destination': transaction.destination.toJson(),
-        'amounfOfTraveler': transaction.amountOfTraveler,
+        'amountOfTraveler': transaction.amountOfTraveler,
         'selectedSeats': transaction.selectedSeats,
         'insurance': transaction.insurance,
         'refundable': transaction.refundable,
@@ -16,6 +16,23 @@ class TransactionService {
         'price': transaction.price,
         'total_price': transaction.totalPrice,
       });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<TransactionModel>> fetchTransactions() async {
+    try {
+      QuerySnapshot result = await _transactionRef.get();
+
+      List<TransactionModel> transactions = result.docs.map(
+        (e) {
+          return TransactionModel.fromJson(
+              e.id, e.data() as Map<String, dynamic>);
+        },
+      ).toList();
+
+      return transactions;
     } catch (e) {
       throw e;
     }

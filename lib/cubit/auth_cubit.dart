@@ -49,6 +49,15 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  void update(UserModel userData) async {
+    try {
+      emit(AuthLoading());
+      await UserService().update(userData);
+    } catch (e) {
+      emit(AuthFailed(e.toString()));
+    }
+  }
+
   void signOut() async {
     try {
       emit(AuthLoading());

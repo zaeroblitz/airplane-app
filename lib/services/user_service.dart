@@ -17,6 +17,16 @@ class UserService {
     }
   }
 
+  Future<void> update(UserModel user) async {
+    try {
+      _userReference.doc(user.id).update({
+        'balance': user.balance,
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<UserModel> getUserById(String id) async {
     try {
       DocumentSnapshot snapshot = await _userReference.doc(id).get();
