@@ -198,11 +198,12 @@ class CheckoutPage extends StatelessWidget {
       );
     }
 
-    Widget _payButton() {
+    Widget _payButton(UserModel user) {
       return BlocConsumer<TransactionCubit, TransactionState>(
         listener: (context, state) {
           if (state is TransactionSuccess) {
             context.read<SeatCubit>().state.clear();
+            context.read<AuthCubit>().getCurrentUser(user.id);
             Navigator.pushNamedAndRemoveUntil(
                 context, AppRoutes.successCheckoutPage, (route) => false);
           } else if (state is TransactionFailed) {
@@ -226,7 +227,9 @@ class CheckoutPage extends StatelessWidget {
             child: PrimaryButton(
               text: 'Pay Now',
               onPressed: () {
-                context.read<TransactionCubit>().createTransaction(transaction);
+                context
+                    .read<TransactionCubit>()
+                    .createTransaction(transaction, user);
               },
             ),
           );
@@ -252,31 +255,40 @@ class CheckoutPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         context.read<SeatCubit>().state.clear();
-        Navigator.pushNamed(context, AppRoutes.detailPage);
         return true;
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            margin: EdgeInsets.only(
-              top: 30,
-              left: defaultMargin,
-              right: defaultMargin,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _header(),
-                  _checkoutDetails(),
-                  _paymentDetails(),
-                  _payButton(),
-                  _termsAndCondition(),
-                ],
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSuccess) {
+            UserModel user = state.user;
+
+            return Scaffold(
+              body: SafeArea(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: 30,
+                    left: defaultMargin,
+                    right: defaultMargin,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _header(),
+                        _checkoutDetails(),
+                        _paymentDetails(),
+                        _payButton(user),
+                        _termsAndCondition(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
+            );
+          } else {
+            return SizedBox();
+          }
+        },
       ),
     );
   }

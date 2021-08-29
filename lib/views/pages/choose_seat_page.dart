@@ -206,16 +206,31 @@ class ChooseSeatPage extends StatelessWidget {
       );
     }
 
-    Widget _continueCheckoutButton() {
+    Widget _continueCheckoutButton(UserModel user) {
       return BlocBuilder<SeatCubit, List<String>>(
         builder: (context, state) {
           return Container(
             margin: EdgeInsets.only(top: 30),
-            child: state.isEmpty
-                ? PrimaryButton(
-                    text: 'Continue to Checkout',
-                    onPressed: () {},
-                    isDisabled: true,
+            child: state.isEmpty ||
+                    user.balance < (destination.price * state.length)
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      user.balance < (destination.price * state.length)
+                          ? Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                "Your wallet deficient to buy tickets",
+                                style: pinkTextStyle,
+                              ),
+                            )
+                          : SizedBox(),
+                      PrimaryButton(
+                        text: 'Continue to Checkout',
+                        onPressed: () {},
+                        isDisabled: true,
+                      ),
+                    ],
                   )
                 : PrimaryButton(
                     text: 'Continue to Checkout',
@@ -243,26 +258,34 @@ class ChooseSeatPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              vertical: 30,
-              horizontal: defaultMargin,
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthSuccess) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    vertical: 30,
+                    horizontal: defaultMargin,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _header(),
+                      _seatStatus(),
+                      _selectSeat(),
+                      _continueCheckoutButton(state.user),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _header(),
-                _seatStatus(),
-                _selectSeat(),
-                _continueCheckoutButton(),
-              ],
-            ),
-          ),
-        ),
-      ),
+          );
+        } else {
+          return SizedBox();
+        }
+      },
     );
   }
 }

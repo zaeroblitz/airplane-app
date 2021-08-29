@@ -8,7 +8,15 @@ class MainPage extends StatelessWidget {
         case 0:
           return HomePage();
         case 1:
-          return TransactionPage();
+          return BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              if (state is AuthSuccess) {
+                return TransactionPage(state.user.id);
+              } else {
+                return SizedBox();
+              }
+            },
+          );
         case 2:
           return WalletPage();
         case 3:

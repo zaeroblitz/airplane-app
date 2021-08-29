@@ -17,10 +17,10 @@ class UserService {
     }
   }
 
-  Future<void> update(UserModel user) async {
+  Future<void> update(UserModel user, int balance) async {
     try {
       _userReference.doc(user.id).update({
-        'balance': user.balance,
+        'balance': balance,
       });
     } catch (e) {
       throw e;

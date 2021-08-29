@@ -4,9 +4,11 @@ class TransactionService {
   CollectionReference _transactionRef =
       FirebaseFirestore.instance.collection('transactions');
 
-  Future<void> createTransaction(TransactionModel transaction) async {
+  Future<void> createTransaction(
+      TransactionModel transaction, UserModel user) async {
     try {
       _transactionRef.add({
+        'id': user.id,
         'destination': transaction.destination.toJson(),
         'amountOfTraveler': transaction.amountOfTraveler,
         'selectedSeats': transaction.selectedSeats,
@@ -21,9 +23,10 @@ class TransactionService {
     }
   }
 
-  Future<List<TransactionModel>> fetchTransactions() async {
+  Future<List<TransactionModel>> fetchTransactions(String id) async {
     try {
-      QuerySnapshot result = await _transactionRef.get();
+      QuerySnapshot result =
+          await _transactionRef.where('id', isEqualTo: id).get();
 
       List<TransactionModel> transactions = result.docs.map(
         (e) {

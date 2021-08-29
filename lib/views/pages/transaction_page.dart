@@ -1,7 +1,8 @@
 part of 'pages.dart';
 
 class TransactionPage extends StatefulWidget {
-  const TransactionPage({Key? key}) : super(key: key);
+  final String userId;
+  const TransactionPage(this.userId, {Key? key}) : super(key: key);
 
   @override
   _TransactionPageState createState() => _TransactionPageState();
@@ -11,7 +12,7 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
     super.initState();
-    context.read<TransactionCubit>().fetchTransactions();
+    context.read<TransactionCubit>().fetchTransactions(widget.userId);
   }
 
   @override
